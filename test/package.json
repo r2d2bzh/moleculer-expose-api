@@ -20,6 +20,10 @@
     "node": ">=16.0.0"
   },
   "c8": {
+    "statements": 0,
+    "branches": 0,
+    "functions": 0,
+    "lines": 0,
     "check-coverage": true,
     "all": true,
     "allowExternal": true,
