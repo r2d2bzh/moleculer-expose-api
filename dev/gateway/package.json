@@ -1,0 +1,19 @@
+{
+  "name": "gateway",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "moleculer": "^0.14.21",
+    "moleculer-web": "^0.10.4",
+    "nats": "^2.6.1",
+    "nodemon": "^2.0.16"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@r2d2bzh/moleculer-to-openapi",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "docker-compose run test",
+    "r2d2": "r2d2bzh-js-backend-rules",
+    "postinstall": "true # postinstall is disabled since js-backend-rules 0.1.2",
+    "lint": "eslint .",
+    "pretest": "docker-compose build test",
+    "pretest:debug": "npm run pretest",
+    "test:debug": "docker-compose run --publish 9229 test debug",
+    "prerelease": "npm run test",
+    "release": "release-it"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "@r2d2bzh/js-backend-rules": "^3.1.6"
+  }
+}

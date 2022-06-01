@@ -1,0 +1,20 @@
+natsServers:
+  env: NATS_SERVERS
+  format: Array
+  default:
+    - "nats:4222"
+
+serviceName:
+  env: SERVICE_NAME
+  format: String
+  default: "openapi"
+
+openapiTitle:
+  env: OPENAPI_TITLE
+  format: String
+  default: "OpenAPI Document Title"
+
+listAliases:
+  env: LIST_ALIASES
+  format: String
+  default: "api.listAliases"

@@ -1,0 +1,34 @@
+services:
+
+  repl:
+    image: ghcr.io/r2d2bzh/docker-moleculer-tools/repl:0.0.2
+    profiles:
+      - nostart
+
+  # Local musing
+  gateway:
+    build:
+      context: ./dev
+      args:
+        UID: ${UID}
+        GID: ${GID}
+        DOCKER_BUILD_NODEJS_VERSION: ${DOCKER_BUILD_NODEJS_VERSION}
+    volumes:
+      - ./dev/gateway:/home/user/dev
+    ports:
+      - 3000
+    command: "sh -c 'npm install && npx nodemon .'"
+
+  # K8s musing
+  # nats:
+  #   image: bitnami/kubectl
+  #   user: ${UID}:${GID}
+  #   volumes:
+  #     - ${HOME}/.kube/:${HOME}/.kube/:ro
+  #   environment:
+  #     KUBECONFIG: ${KUBECONFIG}
+  #   command: ['port-forward', '--address', '0.0.0.0', 'service/nats', '4222:4222']
+
+  # openapi:
+  #   environment:
+  #     LIST_ALIASES: gateway.listAliases

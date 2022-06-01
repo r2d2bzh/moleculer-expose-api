@@ -1,0 +1,38 @@
+{
+  "name": "openapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec \"node --inspect=0.0.0.0:9229\" .",
+    "prestart": "npm i"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "esbuildOptions": {
+    "external": [
+      "avsc",
+      "protobufjs/minimal",
+      "thrift"
+    ]
+  },
+  "dependencies": {
+    "@r2d2bzh/moleculer-healthcheck-middleware": "^1.0.4",
+    "@r2d2bzh/moleculer-start-checker-middleware": "^1.0.1",
+    "@r2d2bzh/yac": "^1.0.1",
+    "js-yaml": "^4.1.0",
+    "lodash-es": "^4.17.21",
+    "minisearch": "^4.0.3",
+    "moleculer": "^0.14.21",
+    "nats": "^2.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "(cd \"../openapi\" && npm i)",
+    "precov": "npm install",
+    "cov": "c8 ava",
+    "prenocov": "npm install",
+    "nocov": "ava",
+    "predebug": "npm install",
+    "debug": "ava debug --host 0.0.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "c8": {
+    "check-coverage": true,
+    "all": true,
+    "allowExternal": true,
+    "src": [
+      "../openapi",
+      "../share"
+    ],
+    "exclude": [
+      "**/__tests__/**",
+      ".release-it.js",
+      "index.js",
+      "share/**"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ]
+  },
+  "dependencies": {
+    "ava": "^4.2.0",
+    "c8": "^7.11.2",
+    "moleculer": "^0.14.21",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {},
+  "description": ""
+}
