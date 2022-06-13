@@ -17,7 +17,7 @@ export default {
       metadata: {
         $summary: 'Adds a todo note',
         $description: `
-        Will add a todo note throught providing its content.
+        Will add a todo note through providing its content.
         `,
       },
       handler,
