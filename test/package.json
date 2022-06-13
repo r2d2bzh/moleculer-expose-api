@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "(cd \"../openapi\" && npm i)",
+    "postinstall": "(cd \"../apidoc\" && npm i) && (cd \"../openapi\" && npm i)",
     "precov": "npm install",
     "cov": "c8 ava",
     "prenocov": "npm install",
@@ -28,6 +28,7 @@
     "all": true,
     "allowExternal": true,
     "src": [
+      "../apidoc",
       "../openapi",
       "../share"
     ],
@@ -43,8 +44,8 @@
     ]
   },
   "dependencies": {
-    "ava": "^4.2.0",
-    "c8": "^7.11.2",
+    "ava": "^4.3.0",
+    "c8": "^7.11.3",
     "moleculer": "^0.14.21",
     "uuid": "^8.3.2"
   },

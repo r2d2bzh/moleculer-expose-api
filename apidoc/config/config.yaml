@@ -1,0 +1,25 @@
+natsServers:
+  env: NATS_SERVERS
+  format: Array
+  default:
+    - "nats:4222"
+
+serviceName:
+  env: SERVICE_NAME
+  format: String
+  default: "apidoc"
+
+apiChangeEvent:
+  env: API_CHANGE_EVENT
+  format: String
+  default: "openapi.changed"
+
+getSearchableDocumentsAction:
+  env: GET_SEARCHABLE_DOCUMENT_ACTION
+  format: String
+  default: "openapi.get-searchable"
+
+openapiURL:
+  env: OPENAPI_URL
+  format: String
+  default: "../../openapi/yaml"

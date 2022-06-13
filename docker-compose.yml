@@ -3,6 +3,10 @@
 # setting is available in the package.json file of the root project:
 # { "r2d2bzh": { "dockerRegistry": ... } }
 #
+# The default path from where volumes are mounted is "." (the compose file path)
+# This can also be customized in the package.json file of the root project:
+# { "r2d2bzh": { "volumeSourceRoot": ... } }
+#
 # If you need to customize the compose configuration any further,
 # please use docker-compose.override.yml
 #
@@ -17,13 +21,36 @@ services:
       context: ./share
     profiles:
       - share
-  openapi:
+  apidoc:
     build: &ref_0
       context: ./dev
       args:
         UID: ${UID}
         GID: ${GID}
         DOCKER_BUILD_NODEJS_VERSION: ${DOCKER_BUILD_NODEJS_VERSION}
+    depends_on:
+      - nats
+    volumes:
+      - ./apidoc:/home/user/dev
+      - ./share:/home/user/share
+    command:
+      - npm
+      - start
+    ports:
+      - 9229
+  apidoc.rel:
+    image: r2d2bzh/moleculer-expose-api/apidoc:${VERSION:-dev}
+    build:
+      context: ./apidoc
+      args:
+        DOCKER_BUILD_NODEJS_VERSION: ${DOCKER_BUILD_NODEJS_VERSION}
+        SHARE: r2d2bzh/moleculer-to-openapi-share:${VERSION:-dev}
+    depends_on:
+      - nats
+    profiles:
+      - rel
+  openapi:
+    build: *ref_0
     depends_on:
       - nats
     volumes:
@@ -35,7 +62,7 @@ services:
     ports:
       - 9229
   openapi.rel:
-    image: r2d2bzh/moleculer-to-openapi/openapi:${VERSION:-dev}
+    image: r2d2bzh/moleculer-expose-api/openapi:${VERSION:-dev}
     build:
       context: ./openapi
       args:
@@ -50,6 +77,7 @@ services:
     volumes: &ref_1
       - ./test:/home/user/dev
       - ./share:/home/user/share
+      - ./apidoc:/home/user/apidoc
       - ./openapi:/home/user/openapi
     profiles:
       - test
@@ -64,4 +92,4 @@ services:
     ports:
       - 9229
   nats:
-    image: nats:2.8.1-alpine3.15
+    image: nats:2.8.4-alpine3.15

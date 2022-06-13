@@ -4,6 +4,8 @@ npm:
 hooks:
   before:bump:
     - sed -i -e 's/${latestVersion}/${version}/g' helm/Chart.yaml
+    - (cd apidoc && release-it --ci ${version})
+    - (cd dev/gateway && release-it --ci ${version})
     - (cd openapi && release-it --ci ${version})
     - (cd share && release-it --ci ${version})
     - (cd test && release-it --ci ${version})

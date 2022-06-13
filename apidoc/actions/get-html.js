@@ -1,6 +1,6 @@
 import { Errors } from 'moleculer';
 
-export default ({ hasApi }) =>
+export default ({ openapiURL, hasApi }) =>
   (context) => {
     if (hasApi(context.params.api)) {
       context.meta.$responseType = 'text/html';
@@ -12,7 +12,7 @@ export default ({ hasApi }) =>
     <script type="module" src="https://unpkg.com/rapidoc/dist/rapidoc-min.js"></script>
   </head>
   <body>
-    <rapi-doc spec-url = "../yaml/${context.params.api}"> </rapi-doc>
+    <rapi-doc spec-url = "${openapiURL}/${context.params.api}"> </rapi-doc>
   </body>
 </html>
 `;

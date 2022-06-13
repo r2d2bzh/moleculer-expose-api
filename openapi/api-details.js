@@ -29,6 +29,7 @@ export const gather = async ({ broker, listAliases }) => {
 
 export const toSearchable = (details) => {
   const searchable = [];
+  const type = 'api';
   for (const [
     id,
     {
@@ -36,18 +37,20 @@ export const toSearchable = (details) => {
       paths,
     },
   ] of details.apis.entries()) {
-    searchable.push({ id, name, summary, description, location: `${name}#overview` });
+    searchable.push({ id, name, type, summary, description, location: `${name}#overview` });
     addPathsToSearchable(searchable, name, paths);
   }
   return searchable;
 };
 
 const addPathsToSearchable = (searchable, apiName, paths) => {
+  const type = 'operation';
   for (const [path, operations] of Object.entries(paths)) {
     for (const [operation, { operationId: name, summary, description }] of Object.entries(operations)) {
       searchable.push({
         id: `${apiName}~${path}~${operation}`,
         name,
+        type,
         summary,
         description,
         location: `${apiName}#${operation}-${path.replace(/[{}]/g, '-')}`,
@@ -69,8 +72,8 @@ const getApiInitializer = (services) => (serviceName) => () => ({
 
 const getOperationExtractor = (actions) => (actionName, methods) => {
   const operation = {
-    summary: actions?.[actionName]?.metadata?.$summary || 'MISSING SUMMARY',
-    description: actions?.[actionName]?.metadata?.$description || 'MISSING DESCRIPTION',
+    summary: actions?.[actionName]?.action?.metadata?.$summary || 'MISSING SUMMARY',
+    description: actions?.[actionName]?.action?.metadata?.$description || 'MISSING DESCRIPTION',
     operationId: actionName,
   };
   const operations = methods !== '*' ? [checkOperation(methods.toLowerCase())] : openapiOperations;

@@ -3,12 +3,22 @@ const handler = (context) => context;
 export default {
   name: 'todo',
   metadata: {
-    $description: 'service in charge of managing todo notes',
+    $summary: 'Service in charge of managing todo notes',
+    $description: `
+    This service records todo notes, the following api calls are available:
+
+    * adding a todo notes
+    * listing/finding todo notes
+    * getting the details of a todo note
+    `,
   },
   actions: {
     add: {
       metadata: {
-        $description: 'adds a todo note',
+        $summary: 'Adds a todo note',
+        $description: `
+        Will add a todo note throught providing its content.
+        `,
       },
       handler,
       rest: {
@@ -18,7 +28,10 @@ export default {
       params: {
         content: {
           metadata: {
-            $description: 'a description of the task to do',
+            $summary: 'A description of the task to do',
+            $description: `
+            The description can be multiline.
+            `,
           },
           type: 'string',
         },
@@ -26,7 +39,10 @@ export default {
     },
     find: {
       metadata: {
-        $description: 'find todo notes',
+        $summary: 'Find todo notes',
+        $description: `
+        Lists todo notes matching a query string passed as the only argument.
+        `,
       },
       handler,
       rest: {
@@ -36,7 +52,11 @@ export default {
       params: {
         query: {
           metadata: {
-            $description: 'a query to match the todo notes with',
+            $summary: 'A query to match the todo notes with',
+            $description: `
+            The query string to match may contain multiple words separated by whitespaces.
+            The list will return first the notes matching most of these words.
+            `,
           },
           type: 'string',
           optional: true,
@@ -45,7 +65,10 @@ export default {
     },
     get: {
       metadata: {
-        $description: 'get the content of a todo note',
+        $summary: 'Get the content of a todo note',
+        $description: `
+        Returns the content of a particular todo notes as a string.
+        `,
       },
       handler,
       rest: {
@@ -55,7 +78,11 @@ export default {
       params: {
         id: {
           metadata: {
-            $description: 'identifier of the todo note to retrieve',
+            $summary: 'Identifier of the todo note to retrieve',
+            $description: `
+            Todo notes are all identified by a UUID.
+            The UUID used must comply with [https://tools.ietf.org/html/rfc4122](RFC 4122).
+            `,
           },
           type: 'string',
         },

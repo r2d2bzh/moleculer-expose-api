@@ -1,4 +1,4 @@
-export const splitActionName = (actionName) => {
+export default (actionName) => {
   const lastDotIndex = actionName.lastIndexOf('.');
   return {
     serviceName: actionName.slice(0, lastDotIndex),
