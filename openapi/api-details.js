@@ -59,12 +59,26 @@ const addPathsToSearchable = (searchable, apiName, paths) => {
   }
 };
 
+const sectionTrimLength = (lines) =>
+  Math.min(
+    ...lines
+      .map((line) => [line.length, line.trimStart().length])
+      .filter(([, trimmedLength]) => trimmedLength)
+      .map(([length, trimmedLength]) => length - trimmedLength)
+  );
+
+const realignSection = (section) => {
+  const lines = section.split('\n');
+  const trimLength = sectionTrimLength(lines);
+  return lines.map((line) => line.slice(trimLength)).join('\n');
+};
+
 const getApiInitializer = (services) => (serviceName) => () => ({
   openapi: '3.1.0',
   info: {
     title: serviceName,
     summary: services?.[serviceName]?.metadata?.$summary || 'MISSING SUMMARY',
-    description: services?.[serviceName]?.metadata?.$description || 'MISSING DESCRIPTION',
+    description: realignSection(services?.[serviceName]?.metadata?.$description || 'MISSING DESCRIPTION'),
     version: services?.[serviceName]?.version || services?.[serviceName]?.metadata?.$version || 'MISSING VERSION',
   },
   paths: {},
@@ -73,7 +87,7 @@ const getApiInitializer = (services) => (serviceName) => () => ({
 const getOperationExtractor = (actions) => (actionName, methods) => {
   const operation = {
     summary: actions?.[actionName]?.action?.metadata?.$summary || 'MISSING SUMMARY',
-    description: actions?.[actionName]?.action?.metadata?.$description || 'MISSING DESCRIPTION',
+    description: realignSection(actions?.[actionName]?.action?.metadata?.$description || 'MISSING DESCRIPTION'),
     operationId: actionName,
   };
   const operations = methods !== '*' ? [checkOperation(methods.toLowerCase())] : openapiOperations;
