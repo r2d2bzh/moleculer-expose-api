@@ -55,6 +55,17 @@ export default ({ name, changeEvent, getSearchableDocumentsAction, getLogger, op
           path: '/js/:name',
         },
       },
+      'get-static-yaml': {
+        handler: getStaticContent({
+          type: 'text/yaml',
+          checkName: (name) => name.endsWith('.yaml'),
+          getLogger,
+        }),
+        rest: {
+          method: 'GET',
+          path: '/yaml/:name',
+        },
+      },
       search: {
         handler: function (context) {
           return this.searcher.search(context.params.input, {

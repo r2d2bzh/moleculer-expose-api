@@ -12,7 +12,8 @@
     "pretest:debug": "npm run pretest",
     "test:debug": "docker-compose run --publish 9229 test debug",
     "prerelease": "npm run test",
-    "release": "release-it"
+    "release": "release-it",
+    "repl": "docker-compose run --rm --volume \"$PWD:/host\" --user \"$(id -u):$(id -g)\" repl"
   },
   "keywords": [],
   "author": "",

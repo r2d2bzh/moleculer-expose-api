@@ -1,5 +1,7 @@
 /* eslint-disable security/detect-object-injection */
 import { splitActionName } from './utils.js';
+import getOperationExtractor from './operation-extractor.js';
+import realignSection from './realign-section.js';
 
 export const create = () => ({
   apis: new Map(),
@@ -59,20 +61,6 @@ const addPathsToSearchable = (searchable, apiName, paths) => {
   }
 };
 
-const sectionTrimLength = (lines) =>
-  Math.min(
-    ...lines
-      .map((line) => [line.length, line.trimStart().length])
-      .filter(([, trimmedLength]) => trimmedLength)
-      .map(([length, trimmedLength]) => length - trimmedLength)
-  );
-
-const realignSection = (section) => {
-  const lines = section.split('\n');
-  const trimLength = sectionTrimLength(lines);
-  return lines.map((line) => line.slice(trimLength)).join('\n');
-};
-
 const getApiInitializer = (services) => (serviceName) => () => ({
   openapi: '3.1.0',
   info: {
@@ -83,25 +71,6 @@ const getApiInitializer = (services) => (serviceName) => () => ({
   },
   paths: {},
 });
-
-const getOperationExtractor = (actions) => (actionName, methods) => {
-  const operation = {
-    summary: actions?.[actionName]?.action?.metadata?.$summary || 'MISSING SUMMARY',
-    description: realignSection(actions?.[actionName]?.action?.metadata?.$description || 'MISSING DESCRIPTION'),
-    operationId: actionName,
-  };
-  const operations = methods !== '*' ? [checkOperation(methods.toLowerCase())] : openapiOperations;
-  return Object.fromEntries(operations.map((key) => [key, operation]));
-};
-
-const openapiOperations = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'];
-
-const checkOperation = (operation) => {
-  if (openapiOperations.includes(operation)) {
-    return operation;
-  }
-  throw new RangeError(`${operation} is not a valid OpenAPI operation`);
-};
 
 const getObjectFrom = (map, key, initializer) => {
   let value = map.get(key);
