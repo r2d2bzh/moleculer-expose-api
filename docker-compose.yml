@@ -49,6 +49,29 @@ services:
       - nats
     profiles:
       - rel
+  open-api:
+    build: *ref_0
+    depends_on:
+      - nats
+    volumes:
+      - ./open-api:/home/user/dev
+      - ./share:/home/user/share
+    command:
+      - npm
+      - start
+    ports:
+      - 9229
+  open-api.rel:
+    image: r2d2bzh/moleculer-expose-api/open-api:${VERSION:-dev}
+    build:
+      context: ./open-api
+      args:
+        DOCKER_BUILD_NODEJS_VERSION: ${DOCKER_BUILD_NODEJS_VERSION}
+        SHARE: r2d2bzh/moleculer-to-openapi-share:${VERSION:-dev}
+    depends_on:
+      - nats
+    profiles:
+      - rel
   openapi:
     build: *ref_0
     depends_on:
@@ -72,13 +95,38 @@ services:
       - nats
     profiles:
       - rel
+  test-moleculer-web:
+    build: *ref_0
+    depends_on:
+      - nats
+    volumes:
+      - ./test-moleculer-web:/home/user/dev
+      - ./share:/home/user/share
+    command:
+      - npm
+      - start
+    ports:
+      - 9229
+  test-moleculer-web.rel:
+    image: r2d2bzh/moleculer-expose-api/test-moleculer-web:${VERSION:-dev}
+    build:
+      context: ./test-moleculer-web
+      args:
+        DOCKER_BUILD_NODEJS_VERSION: ${DOCKER_BUILD_NODEJS_VERSION}
+        SHARE: r2d2bzh/moleculer-to-openapi-share:${VERSION:-dev}
+    depends_on:
+      - nats
+    profiles:
+      - rel
   test:
     build: *ref_0
     volumes: &ref_1
       - ./test:/home/user/dev
       - ./share:/home/user/share
       - ./apidoc:/home/user/apidoc
+      - ./open-api:/home/user/open-api
       - ./openapi:/home/user/openapi
+      - ./test-moleculer-web:/home/user/test-moleculer-web
     profiles:
       - test
     entrypoint:
@@ -92,4 +140,4 @@ services:
     ports:
       - 9229
   nats:
-    image: nats:2.8.4-alpine3.15
+    image: nats:2.9.0-alpine3.16

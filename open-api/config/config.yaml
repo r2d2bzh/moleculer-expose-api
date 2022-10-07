@@ -1,0 +1,63 @@
+natsServers:
+  env: NATS_SERVERS
+  format: Array
+  default:
+    - "nats:4222"
+
+serviceName:
+  env: SERVICE_NAME
+  format: String
+  default: "openapi"
+
+listAliases:
+  env: LIST_ALIASES
+  format: String
+  default: "api.listAliases"
+
+openapi:
+  info:
+    title:
+      env: OPENAPI_TITLE
+      format: String
+      default: "OpenAPI Document Title"
+    summary:
+      env: OPENAPI_SUMMARY
+      format: String
+      default: "OpenAPI Document Summary"
+    description:
+      env: OPENAPI_DESCRIPTION
+      format: String
+      default: |2
+        This is the OpenAPI specification for the whole available stack.
+        Isn't it great ?
+        
+        It supports Markdown:
+        * all markdown specifics should be supported
+        * see https://daringfireball.net/projects/markdown/
+    termsOfService:
+      env: OPENAPI_TERMS_OF_SERVICE
+      format: String
+      default: "https://moleculer.services"
+    contact:
+      email:
+        env: CONTACT_EMAIL_ADDRESS
+        format: String
+        default: "hello@moleculer.services"
+    license:
+      name:
+        env: LICENSE_NAME
+        format: String
+        default: "MIT"
+      url:
+        env: LICENSE_URL
+        format: String
+        default: "https://github.com/moleculerjs/moleculer/blob/master/LICENSE"
+    version:
+      env: OPENAPI_VERSION
+      format: String
+      default: "3.1.0"
+
+  servers:
+    env: OPENAPI_SERVERS
+    format: Array
+    default: https://moleculer.service/api,https://dev.moleculer.service/api

@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "(cd \"../apidoc\" && npm i) && (cd \"../openapi\" && npm i)",
+    "postinstall": "(cd \"../apidoc\" && npm i) && (cd \"../open-api\" && npm i) && (cd \"../openapi\" && npm i) && (cd \"../test-moleculer-web\" && npm i)",
     "precov": "npm install",
     "cov": "c8 ava",
     "prenocov": "npm install",
@@ -29,8 +29,10 @@
     "allowExternal": true,
     "src": [
       "../apidoc",
+      "../open-api",
       "../openapi",
-      "../share"
+      "../share",
+      "../test-moleculer-web"
     ],
     "exclude": [
       "**/__tests__/**",
@@ -44,10 +46,11 @@
     ]
   },
   "dependencies": {
-    "ava": "^4.3.0",
-    "c8": "^7.11.3",
-    "moleculer": "^0.14.21",
-    "uuid": "^8.3.2"
+    "ava": "^4.3.3",
+    "c8": "^7.12.0",
+    "moleculer": "^0.14.23",
+    "moleculer-web": "^0.10.4",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {},
   "description": ""

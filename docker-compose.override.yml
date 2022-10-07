@@ -1,4 +1,7 @@
 services:
+  test-moleculer-web:
+    ports:
+      - 3000
 
   repl:
     image: ghcr.io/r2d2bzh/docker-moleculer-tools/repl:0.0.2

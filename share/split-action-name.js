@@ -1,7 +1,7 @@
-export default (actionName) => {
-  const lastDotIndex = actionName.lastIndexOf('.');
+export default (actionFullName) => {
+  const lastDotIndex = actionFullName.lastIndexOf('.');
   return {
-    serviceName: actionName.slice(0, lastDotIndex),
-    actionName: actionName.slice(lastDotIndex + 1),
+    serviceName: actionFullName.slice(0, lastDotIndex),
+    actionName: actionFullName.slice(lastDotIndex + 1),
   };
 };
