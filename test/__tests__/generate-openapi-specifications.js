@@ -11,7 +11,14 @@ const gatewayService = gateway();
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 test.beforeEach(async (t) => {
-  t.context.broker = new ServiceBroker({});
+  t.context.broker = new ServiceBroker({
+    logger: {
+      type: 'Console',
+      options: {
+        level: 'error',
+      },
+    },
+  });
   t.context.broker.createService(gatewayService);
   t.context.broker.createService(todoService);
   await t.context.broker.start();
@@ -22,7 +29,7 @@ test.afterEach.always((t) => {
   return t.context.broker.stop();
 });
 
-test('whatever', async (t) => {
+test('nominal production of an openapi document', async (t) => {
   // an eventEmitter is needed instead of using directly a Promise
   // because a changed event is also emitted on broker stop
   const testResult = new EventEmitter();

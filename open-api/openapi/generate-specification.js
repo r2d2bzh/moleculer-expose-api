@@ -49,7 +49,7 @@ const getPaths = async ({ aliases, services, actions }) => {
 
       tags: [serviceName],
       summary,
-      description,
+      description: realignSection(description),
       operationId: actionName,
       // we trust the moleculer registry
       // eslint-disable-next-line security/detect-object-injection
@@ -70,7 +70,11 @@ const getParameters = ({ fullPath, method, parameters = {} }) => {
     };
 };
 
-const getTags = ({ aliases, services, actions }) => ({});
+const getTags = ({ aliases, services, actions }) =>
+  services.map(({ name, metadata: { $openapi, $description } }) => ({
+    name,
+    description: realignSection($openapi?.description ?? $description),
+  }));
 
 const getSchemas = ({ aliases, services, actions }) => ({});
 
@@ -79,3 +83,20 @@ const getComponentsParameters = ({ aliases, services, actions }) => ({});
 const moleculerPathToOpenapiPath = (path) => path.replace(/:([^/]+)/g, '{$1}');
 
 const getPathParameters = (path) => (path.match(/:[^/]+/g) || []).map((pathParameter) => pathParameter.slice(1));
+
+const sectionTrimLength = (lines) =>
+  Math.min(
+    ...lines
+      .map((line) => [line.length, line.trimStart().length])
+      .filter(([, trimmedLength]) => trimmedLength) // do not take into account empty lines
+      .map(([length, trimmedLength]) => length - trimmedLength)
+  );
+
+const realignSection = (section) => {
+  if (!section) {
+    return;
+  }
+  const lines = section.split('\n');
+  const trimLength = sectionTrimLength(lines);
+  return lines.map((line) => line.slice(trimLength)).join('\n');
+};
